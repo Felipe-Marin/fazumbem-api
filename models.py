@@ -1,4 +1,4 @@
-from app import db
+import app
 import enum
 
 class TipoPessoa(enum.Enum):
@@ -16,14 +16,14 @@ class FormaAjuda(enum.Enum):
 class TipoBeneficiado(enum.Enum):
     PJ = 'PJ'
 
-class Entidade(db.Model):
+class Entidade(app.db.Model):
     __tablename__ = 'entidades'
 
-    entidade_id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(), nullable=False)
-    tipo_pessoa = db.Column(db.Enum(TipoPessoa))
-    url_entidade = db.Column(db.String())
-    descricao = db.Column(db.String())
+    entidade_id = app.db.Column(app.db.Integer, primary_key=True)
+    nome = app.db.Column(app.db.String(), nullable=False)
+    tipo_pessoa = app.db.Column(app.db.Enum(TipoPessoa))
+    url_entidade = app.db.Column(app.db.String())
+    descricao = app.db.Column(app.db.String())
 
     def __init__(self, nome, tipo_pessoa, url_entidade, descricao):
         self.nome = nome
@@ -43,25 +43,25 @@ class Entidade(db.Model):
             'descricao': self.descricao
         }
 
-class Acao(db.Model):
+class Acao(app.db.Model):
     __tablename__ = 'acoes'
 
-    acao_id = db.Column(db.Integer, primary_key=True)
-    entidade_id = db.Column(db.Integer, db.ForeignKey('entidade.entidade_id'), nullable=False)
-    nome_acao = db.Column(db.String(), nullable=False)
-    imagem_acao = db.Column(db.LargeBinary())
-    url_acao = db.Column(db.String())
-    descricao = db.Column(db.String())
-    contato = db.Column(db.String())
-    tipo_ajuda = db.Column(db.Enum(TipoAjuda), nullable=False)
-    forma_ajuda = db.Column(db.Enum(FormaAjuda), nullable=False)
-    data_insercao = db.Column(db.DateTime())
-    data_atualizacao = db.Column(db.DateTime())
-    forma_verificacao = db.Column(db.String())
-    resp_verificacao = db.Column(db.String())
-    ativa = db.Column(db.Boolean())
-    permanente = db.Column(db.Boolean())
-    validade = db.Column(db.String())
+    acao_id = app.db.Column(app.db.Integer, primary_key=True)
+    entidade_id = app.db.Column(app.db.Integer, app.db.ForeignKey('entidade.entidade_id'), nullable=False)
+    nome_acao = app.db.Column(app.db.String(), nullable=False)
+    imagem_acao = app.db.Column(app.db.LargeBinary())
+    url_acao = app.db.Column(app.db.String())
+    descricao = app.db.Column(app.db.String())
+    contato = app.db.Column(app.db.String())
+    tipo_ajuda = app.db.Column(app.db.Enum(TipoAjuda), nullable=False)
+    forma_ajuda = app.db.Column(app.db.Enum(FormaAjuda), nullable=False)
+    data_insercao = app.db.Column(app.db.DateTime())
+    data_atualizacao = app.db.Column(app.db.DateTime())
+    forma_verificacao = app.db.Column(app.db.String())
+    resp_verificacao = app.db.Column(app.db.String())
+    ativa = app.db.Column(app.db.Boolean())
+    permanente = app.db.Column(app.db.Boolean())
+    validade = app.db.Column(app.db.String())
 
     def __init__(self, entidade_id, nome_acao, imagem_acao, url_acao, descricao, contato, tipo_ajuda, forma_ajuda, data_insercao, data_atualizacao, forma_verificacao, resp_verificacao, ativa, permanente, validade):
         self.entidade_id = entidade_id
