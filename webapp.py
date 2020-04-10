@@ -65,8 +65,6 @@ def acao():
         contato=request.form.get('contato')
         tipo_ajuda=request.form.get('tipo_ajuda')
         forma_ajuda=request.form.get('forma_ajuda')
-        data_insercao=request.form.get('data_insercao')
-        data_atualizacao=request.form.get('data_atualizacao')
         forma_verificacao=request.form.get('forma_verificacao')
         resp_verificacao=request.form.get('resp_verificacao')
         ativa=request.form.get('ativa')
@@ -82,8 +80,6 @@ def acao():
                 contato=contato,
                 tipo_ajuda=tipo_ajuda,
                 forma_ajuda=forma_ajuda,
-                data_insercao=data_insercao,
-                data_atualizacao=data_atualizacao,
                 forma_verificacao=forma_verificacao,
                 resp_verificacao=resp_verificacao,
                 ativa=ativa,
