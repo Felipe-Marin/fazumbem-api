@@ -67,8 +67,8 @@ def acao():
         forma_ajuda=request.form.get('forma_ajuda')
         forma_verificacao=request.form.get('forma_verificacao')
         resp_verificacao=request.form.get('resp_verificacao')
-        ativa=request.form.get('ativa')
-        permanente=request.form.get('permanente')
+        ativa=request.form.get('ativa') == 'true'
+        permanente=request.form.get('permanente') == 'true'
         validade=request.form.get('validade')
         try:
             acao=models.Acao(
