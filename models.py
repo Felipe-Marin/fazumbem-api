@@ -60,8 +60,8 @@ class Acao(db.Model):
     data_atualizacao = db.Column(db.DateTime())
     forma_verificacao = db.Column(db.String())
     resp_verificacao = db.Column(db.String())
-    ativa = db.Column(db.Boolean())
-    permanente = db.Column(db.Boolean())
+    ativa = db.Column(db.Boolean)
+    permanente = db.Column(db.Boolean)
     validade = db.Column(db.String())
 
     def __init__(self, entidade_id, nome_acao, imagem_acao, url_acao, descricao, contato, tipo_ajuda, forma_ajuda, forma_verificacao, resp_verificacao, ativa, permanente, validade):
