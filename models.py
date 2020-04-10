@@ -1,5 +1,6 @@
 from webapp import db
 import enum
+from datetime import datetime
 
 class TipoPessoa(enum.Enum):
     PF = 'PF'
@@ -63,7 +64,7 @@ class Acao(db.Model):
     permanente = db.Column(db.Boolean())
     validade = db.Column(db.String())
 
-    def __init__(self, entidade_id, nome_acao, imagem_acao, url_acao, descricao, contato, tipo_ajuda, forma_ajuda, data_insercao, data_atualizacao, forma_verificacao, resp_verificacao, ativa, permanente, validade):
+    def __init__(self, entidade_id, nome_acao, imagem_acao, url_acao, descricao, contato, tipo_ajuda, forma_ajuda, forma_verificacao, resp_verificacao, ativa, permanente, validade):
         self.entidade_id = entidade_id
         self.nome_acao = nome_acao
         self.imagem_acao = imagem_acao
@@ -72,8 +73,8 @@ class Acao(db.Model):
         self.contato = contato
         self.tipo_ajuda = tipo_ajuda
         self.forma_ajuda = forma_ajuda
-        self.data_insercao = data_insercao
-        self.data_atualizacao = data_atualizacao
+        self.data_insercao = datetime.now()
+        self.data_atualizacao = datetime.now()
         self.forma_verificacao = forma_verificacao
         self.resp_verificacao = resp_verificacao
         self.ativa = ativa
