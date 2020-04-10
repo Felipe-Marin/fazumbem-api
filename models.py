@@ -48,7 +48,7 @@ class Acao(db.Model):
     __tablename__ = 'acoes'
 
     acao_id = db.Column(db.Integer, primary_key=True)
-    entidade_id = db.Column(db.Integer, db.ForeignKey('entidade.entidade_id'), nullable=False)
+    entidade_id = db.Column(db.Integer, db.ForeignKey('entidades.entidade_id'), nullable=False)
     nome_acao = db.Column(db.String(), nullable=False)
     imagem_acao = db.Column(db.LargeBinary())
     url_acao = db.Column(db.String())
