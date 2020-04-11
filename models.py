@@ -33,7 +33,7 @@ class Entidade(db.Model):
         self.descricao = descricao
 
     def __repr__(self):
-        return '<Entidade %r>' % self.nome
+        return '<Entidade: %r>' % self.nome
 
     def serialize(self):
         return{
@@ -63,7 +63,7 @@ class Acao(db.Model):
     ativa = db.Column(db.Boolean)
     permanente = db.Column(db.Boolean)
     validade = db.Column(db.String())
-    nome_entidade = db.relationship(Entidade, foreign_keys=entidade_id, backref='nome')
+    entidade = db.relationship(Entidade, foreign_keys=entidade_id, backref='entidade_acao')
 
     def __init__(self, entidade_id, nome_acao, imagem_acao, url_acao, descricao, contato, tipo_ajuda, forma_ajuda, forma_verificacao, resp_verificacao, ativa, permanente, validade):
         self.entidade_id = entidade_id
@@ -103,5 +103,5 @@ class Acao(db.Model):
             'ativa': self.ativa,
             'permanente': self.permanente,
             'validade': self.validade,
-            'nome_entidade': self.nome_entidade
+            'nome_entidade': self.entidade
         }
