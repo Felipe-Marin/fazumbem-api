@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import os
 import config
 
 app = Flask(__name__)
+CORS(app)
 
 #app.config.from_object(os.environ['APP_SETTINGS'])
 app.config.from_object(config.DevelopmentConfig)
