@@ -63,6 +63,7 @@ class Acao(db.Model):
     ativa = db.Column(db.Boolean)
     permanente = db.Column(db.Boolean)
     validade = db.Column(db.String())
+    nome_entidade = db.relationship(Entidade, foreign_keys=entidade_id, backref='nome')
 
     def __init__(self, entidade_id, nome_acao, imagem_acao, url_acao, descricao, contato, tipo_ajuda, forma_ajuda, forma_verificacao, resp_verificacao, ativa, permanente, validade):
         self.entidade_id = entidade_id
@@ -101,5 +102,6 @@ class Acao(db.Model):
             'resp_verificacao': self.resp_verificacao,
             'ativa': self.ativa,
             'permanente': self.permanente,
-            'validade': self.validade
+            'validade': self.validade,
+            'nome_entidade': self.nome_entidade
         }
