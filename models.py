@@ -90,7 +90,6 @@ class Acao(db.Model):
             'acao_id': self.acao_id,
             'entidade_id': self.entidade_id,
             'nome_acao': self.nome_acao,
-            'imagem_acao': self.imagem_acao,
             'url_acao': self.url_acao,
             'descricao': self.descricao,
             'contato': self.contato,
