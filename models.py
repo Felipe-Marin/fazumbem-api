@@ -103,5 +103,5 @@ class Acao(db.Model):
             'ativa': self.ativa,
             'permanente': self.permanente,
             'validade': self.validade,
-            'nome_entidade': self.entidade
+            'nome_entidade': self.entidade.nome
         }
