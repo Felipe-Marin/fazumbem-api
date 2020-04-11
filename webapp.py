@@ -59,7 +59,7 @@ def acao():
     if request.method == 'POST':
         entidade_id=request.form.get('entidade_id')
         nome_acao=request.form.get('nome_acao')
-        imagem_acao=request.files['imagem_acao']
+        imagem_acao=request.files['imagem_acao'].read()
         url_acao=request.form.get('url_acao')
         descricao=request.form.get('descricao')
         contato=request.form.get('contato')
