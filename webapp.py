@@ -37,14 +37,14 @@ def entidade():
 	        return(str(e))
     if request.method == 'GET':
         tipo_request = request.args.get('tipo_request')
-        if(tipo_request == 'id'):
+        if tipo_request == 'id':
             entidade_id=request.args.get('entidade_id')
             try:
                 entidade=models.Entidade.query.filter_by(entidade_id=entidade_id).first()
                 return jsonify({'success': True, 'data': entidade.serialize()})
             except Exception as e:
                 return jsonify({'success': False, 'data': str(e)})
-        elif(tipo_request == 'all'):
+        elif tipo_request == 'all':
             try:
                 entidades=models.Entidade.query.all()
                 return jsonify({'success': True, 'data': [e.serialize() for e in entidades]})
@@ -62,7 +62,7 @@ def acao():
         imagem_acao=request.form.get('imagem_acao')
         url_acao=request.form.get('url_acao')
         descricao=request.form.get('descricao')
-        contato=request.form.get('contato')
+        contato=request.files.get('contato')
         tipo_ajuda=request.form.get('tipo_ajuda')
         forma_ajuda=request.form.get('forma_ajuda')
         forma_verificacao=request.form.get('forma_verificacao')
@@ -100,14 +100,14 @@ def acao():
                 return jsonify({'success': True, 'data': acao.serialize()})
             except Exception as e:
                 return jsonify({'success': False, 'data': str(e)})
-        if(tipo_request == 'entidade'):
+        if tipo_request == 'entidade':
             entidade_id=request.args.get('entidade_id')
             try:
                 acoes=models.Acao.query.filter_by(entidade_id=entidade_id).all()
                 return jsonify({'success': True, 'data': [a.serialize() for a in acoes]})
             except Exception as e:
                 return jsonify({'success': False, 'data': str(e)})
-        elif(tipo_request == 'all'):
+        elif tipo_request == 'all':
             try:
                 acoes=models.Acao.query.all()
                 return jsonify({'success': True, 'data': [a.serialize() for a in acoes]})
