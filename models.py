@@ -39,7 +39,7 @@ class Entidade(db.Model):
         return{
             'entidade_id': self.entidade_id,
             'nome': self.nome,
-            'tipo_pessoa': self.tipo_pessoa.value,
+            'tipo_pessoa': self.tipo_pessoa,
             'url_entidade': self.url_entidade,
             'descricao': self.descricao
         }
