@@ -36,10 +36,13 @@ class Entidade(db.Model):
         return '<Entidade: %r>' % self.nome
 
     def serialize(self):
+        tipo_p = None
+        if self.tipo_pessoa:
+            tipo_p = self.tipo_pessoa.value
         return{
             'entidade_id': self.entidade_id,
             'nome': self.nome,
-            'tipo_pessoa': self.tipo_pessoa,
+            'tipo_pessoa': tipo_p,
             'url_entidade': self.url_entidade,
             'descricao': self.descricao
         }
@@ -86,6 +89,12 @@ class Acao(db.Model):
         return '<Acão %r>' % self.nome_acao
 
     def serialize(self):
+        tipo_a = None
+        forma_a = None
+        if self.tipo_ajuda:
+            tipo_a = self.tipo_ajuda.value
+        if self.forma_ajuda:
+            forma_a = self.forma_ajuda.value
         return{
             'acao_id': self.acao_id,
             'entidade_id': self.entidade_id,
@@ -93,8 +102,8 @@ class Acao(db.Model):
             'url_acao': self.url_acao,
             'descricao': self.descricao,
             'contato': self.contato,
-            'tipo_ajuda': self.tipo_ajuda.value,
-            'forma_ajuda': self.forma_ajuda.value,
+            'tipo_ajuda': tipo_a,
+            'forma_ajuda': forma_a,
             'data_insercao': self.data_insercao,
             'data_atualizacao': self.data_atualizacao,
             'forma_verificacao': self.forma_verificacao,
