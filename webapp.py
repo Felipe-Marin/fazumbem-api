@@ -61,7 +61,6 @@ def acao():
     if request.method == 'POST':
         entidade_id=request.form.get('entidade_id')
         nome_acao=request.form.get('nome_acao')
-        imagem_acao=request.files['imagem_acao']
         url_acao=request.form.get('url_acao')
         descricao=request.form.get('descricao')
         contato=request.form.get('contato')
@@ -72,8 +71,10 @@ def acao():
         ativa=request.form.get('ativa') == 'true'
         permanente=request.form.get('permanente') == 'true'
         validade=request.form.get('validade')
-        if imagem_acao:
-            imagem_acao = imagem_acao.read()
+        if 'imagem_acao' in request.files:
+            imagem_acao = request.files['imagem_acao']
+        else:
+            imagem_acao = None
         try:
             acao=models.Acao(
                 entidade_id=entidade_id,
