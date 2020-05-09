@@ -13,6 +13,8 @@ class TipoAjuda(enum.Enum):
 class FormaAjuda(enum.Enum):
     DINHEIRO = 'DINHEIRO'
     MATERIAL = 'MATERIAL'
+    SERVICO = 'SERVICO'
+    ONLINE = 'ONLINE'
 
 class TipoBeneficiado(enum.Enum):
     PJ = 'PJ'
@@ -47,13 +49,112 @@ class Entidade(db.Model):
             'descricao': self.descricao
         }
 
+class NaMidia(db.Model):
+    __tablename__ = 'na_midia'
+
+    na_midia_id = db.Column(db.Integer, primary_key=True)
+    acao_id = db.Column(db.Integer, db.ForeignKey('acoes.acao_id'), nullable=False)
+    midia_url = db.Column(db.String())
+    midia = db.Column(db.String())
+
+    def __init__(self, acao_id, midia_url, midia):
+        self.acao_id = acao_id
+        self.midia_url = midia_url
+        self.midia = midia
+
+    def __repr__(self):
+        return '<NaMidia: %r>' % self.midia_url
+
+    def serialize(self):
+        return{
+            'na_midia_id': self.na_midia_id,
+            'acao_id': self.acao_id,
+            'midia_url': self.midia_url,
+            'midia': self.midia
+        }
+
+class Localizacao(db.Model):
+    __tablename__ = 'localizacoes'
+
+    localizacao_id = db.Column(db.Integer, primary_key=True)
+    acao_id = db.Column(db.Integer, db.ForeignKey('acoes.acao_id'), nullable=False)
+    endereco = db.Column(db.String())
+    latitude = db.Column(db.String())
+    longitude = db.Column(db.String())
+    horario = db.Column(db.String())
+    obs = db.Column(db.String())
+
+    def __init__(self, acao_id, endereco, latitude, longitude, horario, obs):
+        self.acao_id = acao_id
+        self.endereco = endereco
+        self.latitude = latitude
+        self.longitude = longitude
+        self.horario = horario
+        self.obs = obs
+
+    def __repr__(self):
+        return '<Localizacao: %r>' % self.endereco
+
+    def serialize(self):
+        return{
+            'localizacao_id': self.localizacao_id,
+            'acao_id': self.acao_id,
+            'endereco': self.endereco,
+            'latitude': self.latitude,
+            'longitude': self.longitude,
+            'horario': self.horario,
+            'obs': self.obs
+        }
+
+class DadosBancarios(db.Model):
+    __tablename__ = 'dados_bancarios'
+
+    dados_bancarios_id = db.Column(db.Integer, primary_key=True)
+    acao_id = db.Column(db.Integer, db.ForeignKey('acoes.acao_id'), nullable=False)
+    banco = db.Column(db.String())
+    agencia = db.Column(db.String())
+    operacao = db.Column(db.String())
+    conta = db.Column(db.String())
+    nome_beneficiado = db.Column(db.String())
+    tipo_beneficiado = db.Column(db.Enum(TipoBeneficiado), nullable=False)
+    id_beneficiado = db.Column(db.String())
+
+    def __init__(self, acao_id, banco, agencia, operacao, conta, nome_beneficiado, tipo_beneficiado, id_beneficiado):
+        self.acao_id = acao_id
+        self.banco = banco
+        self.agencia = agencia
+        self.operacao = operacao
+        self.conta = conta
+        self.nome_beneficiado = nome_beneficiado
+        self.tipo_beneficiado = tipo_beneficiado
+        self.id_beneficiado = id_beneficiado
+
+    def __repr__(self):
+        return '<Localizacao: %r>' % self.acao_id
+
+    def serialize(self):
+        tipo_b = None
+        if self.tipo_beneficiado:
+            tipo_b = self.tipo_beneficiado.value
+        return{
+            'dados_bancarios_id': self.dados_bancarios_id,
+            'acao_id': self.acao_id,
+            'banco': self.banco,
+            'agencia': self.agencia,
+            'operacao': self.operacao,
+            'conta': self.conta,
+            'nome_beneficiado': self.nome_beneficiado,
+            'tipo_beneficiado': tipo_b,
+            'id_beneficiado': self.id_beneficiado
+        }
+
 class Acao(db.Model):
     __tablename__ = 'acoes'
 
     acao_id = db.Column(db.Integer, primary_key=True)
     entidade_id = db.Column(db.Integer, db.ForeignKey('entidades.entidade_id'), nullable=False)
     nome_acao = db.Column(db.String(), nullable=False)
-    imagem_acao = db.Column(db.LargeBinary())
+    imagem_acao = db.Column(db.String())
     url_acao = db.Column(db.String())
     descricao = db.Column(db.String())
     contato = db.Column(db.String())
@@ -67,6 +168,9 @@ class Acao(db.Model):
     permanente = db.Column(db.Boolean)
     validade = db.Column(db.String())
     entidade = db.relationship(Entidade, foreign_keys=entidade_id, backref='entidade_acao')
+    localizacoes = db.relationship(Localizacao, primaryjoin="and_(Acao.acao_id==Localizacao.acao_id)")
+    midias = db.relationship(NaMidia, primaryjoin="and_(Acao.acao_id==NaMidia.acao_id)")
+    dados_bancarios = db.relationship(DadosBancarios, primaryjoin="and_(Acao.acao_id==DadosBancarios.acao_id)")
 
     def __init__(self, entidade_id, nome_acao, imagem_acao, url_acao, descricao, contato, tipo_ajuda, forma_ajuda, forma_verificacao, resp_verificacao, ativa, permanente, validade):
         self.entidade_id = entidade_id
@@ -99,6 +203,7 @@ class Acao(db.Model):
             'acao_id': self.acao_id,
             'entidade_id': self.entidade_id,
             'nome_acao': self.nome_acao,
+            #'imagem_acao': self.imagem_acao,
             'url_acao': self.url_acao,
             'descricao': self.descricao,
             'contato': self.contato,
@@ -111,5 +216,8 @@ class Acao(db.Model):
             'ativa': self.ativa,
             'permanente': self.permanente,
             'validade': self.validade,
-            'nome_entidade': self.entidade.nome
+            'nome_entidade': self.entidade.nome,
+            'localizacoes': [localizacao.serialize() for localizacao in self.localizacoes],
+            'midias': [midia.serialize() for midia in self.midias],
+            'dados_bancarios': [dado_bancario.serialize() for dado_bancario in self.dados_bancarios]
         }
